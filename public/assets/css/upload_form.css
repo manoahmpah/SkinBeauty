@@ -1,0 +1,76 @@
+@import "variable.css";
+
+body{
+    font-family: var(--font-poppins), sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 0;
+    margin: 0;
+}
+
+/* Style de base pour la section de téléchargement */
+.upload-section {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Style des champs du formulaire */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input[type="file"],
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-group input[type="file"] {
+    padding: 5px;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    background-color: #fff;
+}
+
+.form-group textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+/* Style pour le bouton de téléchargement */
+.btn-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-upload:hover {
+    background-color: #218838;
+}

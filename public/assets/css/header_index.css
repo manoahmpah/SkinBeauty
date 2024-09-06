@@ -1,0 +1,110 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1% 5%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.16) 10.21%, rgba(102, 102, 102, 0.02) 88.37%);;
+}
+
+.logo h1, .BofLogo{
+    font-family: var(--decoration-font), serif;
+    color: white !important;
+}
+
+nav ul li a{
+    color: white !important;
+}
+
+header .logo h1 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--primary-color);
+
+}
+
+header .logo span {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    font-weight: 200;
+    transition: color 0.3s ease;
+    font-size: .7rem;
+}
+
+nav ul li a:hover {
+    color: var(--primary-color);
+}
+
+
+
+
+
+.menu-services{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    left: 0;
+    height: 30vw;
+    width: 100vw;
+    overflow: scroll;
+    background-color: #6c63ff;
+    & a{
+        color: white;
+        padding: 10px 20px;
+        margin: 0;
+        text-decoration: none;
+    }
+}
+
+select, #reservation_date{
+    color: white;
+    background-color: transparent;
+    border: 0;
+}
+
+#form_shortcut_reservation{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+    height: 4vh;
+
+    & div{
+        padding: .3% 0 .3% 2%;
+    }
+
+    & div:last-child{
+        height: 100%;
+    }
+}
+
+#btn_reservation{
+    font-size: 2vh;
+    border: 0;
+    height: 100%;
+    background-color: black;
+    color: white;
+    border-radius: 0 15px 15px 0;
+}
+
+.container_resevation_shortcut{
+    width: 50%;
+}

@@ -1,0 +1,113 @@
+@import url('variable.css');
+body{
+    font-family: var(--font-poppins), sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 0;
+    margin: 0;
+}
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.service-item {
+    padding: 20px;
+    box-shadow: var(--service-item-shadow);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-item img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.service-item h3 {
+    font-size: 20px;
+    color: var(--service-item-title-color);
+    margin-bottom: 10px;
+}
+
+.service-item p {
+    font-size: 14px;
+    color: var(--service-item-text-color);
+    line-height: 1.5;
+}
+
+.service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+
+footer
+.service {
+    width: 100%;
+    flex: 1 1 calc(33.333% - 20px); /* Ajuste la largeur pour trois colonnes avec un écart de 20px */
+    box-sizing: border-box;
+    text-align: center;
+    margin: 10px; /* Ajoute un espace de 10px autour de chaque élément pour un écart de 20px total */
+}
+
+.Container-all-services {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: 'Poppins', sans-serif;
+    justify-content: center;
+    padding-bottom: 15vh;
+}
+
+.Container-all-services a{
+    text-decoration: none;
+    color: black;
+    height: fit-content;
+}
+
+.service {
+    border-radius: 10px;
+    flex: 1 1 calc(33.333% - 20px); /* Ajuste la largeur pour trois colonnes avec un écart de 20px */
+    box-sizing: border-box;
+    text-align: center;
+    margin: 10px; /* Ajoute un espace de 10px autour de chaque élément pour un écart de 20px total */
+}
+
+.service img:first-child {
+    object-fit: cover;
+    width: 100%;
+    height: 70%;
+    border-radius: 5px;
+}
+
+@media (max-width: 900px) {
+    .service {
+        flex: 1 1 calc(50% - 20px); /* Passe à deux colonnes */
+    }
+
+    .container-presentation p{
+        padding: 10% 5%;
+
+    }
+}
+
+@media (max-width: 600px) {
+    .service {
+        flex: 1 1 calc(100% - 20px); /* Passe à une colonne */
+    }
+}
+
+.name_service_arrow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & h3{
+        font-size: 2vw;
+    }
+    & img{
+        width: 3%;
+        height: 3%;
+    }
+}

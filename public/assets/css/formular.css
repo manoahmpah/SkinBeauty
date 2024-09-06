@@ -1,0 +1,104 @@
+@import "variable.css";
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 0;
+    margin: 0;
+}
+
+.Title-service{
+    font-family: var(--decoration-font), sans-serif;
+    font-size: 5vw;
+    font-weight: 100;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container-title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    width: 100%;
+}
+
+.animation-title{
+    height: 15vh;
+    margin-top: 5%;
+}
+
+.container-title p{
+    margin: 0;
+    font-family: poppins, sans-serif;
+    font-size: 1vw;
+}
+
+a[href="connect_page.php"]{
+    text-decoration: #000000 underline;
+}
+
+a[href="connect_page.php"]:hover{
+    text-decoration: #828282 underline;
+}
+
+span{
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.container-info-about-form{
+    display: flex;
+    justify-content: space-between;
+    gap: 10%;
+    font-family: poppins, sans-serif;
+    width: 100%;
+}
+
+.container-info-about-form > *{
+    flex: 1;
+}
+
+a{
+    text-decoration: none;
+    color: #000000;
+}
+
+main{
+    padding: 0 2%;
+}
+
+.formula{
+    display: flex;
+    justify-content: space-between;
+    border: #000000 1px solid;
+    margin: 2% 1%;
+    border-radius: 10px;
+    padding: 0 5%;
+}
+
+.formula:hover{
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.container-formula{
+    overflow-y: scroll;
+    height: 40vh;
+    border-bottom: rgb(0, 0, 0) 1px solid;
+}
+
+.container-formula::-webkit-scrollbar{
+    width: 0;
+    background-color: transparent;
+}
+
+.paragraph-details{
+    text-align: justify;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.3;
+}

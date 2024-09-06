@@ -1,0 +1,83 @@
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    color: var(--footer-text-color);
+}
+
+.footer-section h4 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-section h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.footer-section p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.social-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+}
+
+.pages-footer a{
+    display: block;
+    text-decoration: none;
+    color: var(--footer-link-color);
+}
+
+
+.pages-footer a:hover{
+    color: var(--footer-link-hover-color);
+}
+
+.social-links li a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.social-links li a:hover {
+    background-color: var(--footer-link-hover-color);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid var(--footer-border-color);
+    margin-top: 40px;
+    color: var(--footer-text-color);
+}
+
+.footer-bottom p {
+    font-size: 12px;
+}

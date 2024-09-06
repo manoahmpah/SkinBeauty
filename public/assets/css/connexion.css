@@ -1,0 +1,262 @@
+@import url('variable.css');
+
+body{
+    font-family: var(--font-poppins), sans-serif;
+}
+
+.section-connexion{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 80vh;
+    padding-bottom: 10%;
+    border-bottom: var(--footer-border-color) 1px solid;
+    padding-top: 2%;
+}
+
+
+.img_inscription{
+    height: 80vh;
+}
+
+.section-connexion div:first-child img{
+    height: 100%;
+}
+
+.input_display{
+    border-radius: 12px;
+    padding: 2% 20%;
+    width: 30vw;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+
+    & button{
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    & button:hover{
+        background-color: var(--service-item-text-color);
+    }
+}
+
+#email, #password, input{
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+}
+
+#email_error, #password_error{
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    border: #d60a0a 1px solid;
+}
+
+.container_name_form input {
+    box-sizing: border-box;
+    width: 14.5vw;
+}
+
+.container_name_form{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.noAccount{
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+    padding-top: 10%;
+    border-top: var(--footer-border-color) 1px solid;
+    color: var(--footer-text-color);
+    padding-bottom: 10%;
+}
+
+span{
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+
+span:hover{
+    color: var(--primary-color);
+}
+
+.message_error{
+    color: #d60a0a;
+    background-color: rgba(214, 10, 10, 0.44);
+    padding: 1.5%;
+    border-radius: 5px;
+}
+
+
+.arrow_return{
+    cursor: pointer;
+    color: var(--footer-text-color);
+
+}
+
+.return_container{
+    display: flex;
+    align-items: center;
+    height: 10px;
+    gap: 1%;
+}
+
+.return_text{
+    font-size: .8rem;
+}
+
+.class_digital_number div:first-child{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1%;
+    padding: 10% 0;
+}
+
+.digit-input {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    -moz-appearance: textfield;
+}
+
+.digit-input::-webkit-inner-spin-button,
+.digit-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* dot animation */
+@keyframes icon-line-tip {
+    0% {
+        width: 0;
+        left: 1px;
+        top: 19px;
+    }
+    54% {
+        width: 0;
+        left: 1px;
+        top: 19px;
+    }
+    70% {
+        width: 50px;
+        left: -8px;
+        top: 37px;
+    }
+    84% {
+        width: 17px;
+        left: 21px;
+        top: 48px;
+    }
+    100% {
+        width: 25px;
+        left: 14px;
+        top: 45px;
+    }
+}
+@keyframes icon-line-long {
+    0% {
+        width: 0;
+        right: 46px;
+        top: 54px;
+    }
+    65% {
+        width: 0;
+        right: 46px;
+        top: 54px;
+    }
+    84% {
+        width: 55px;
+        right: 0px;
+        top: 35px;
+    }
+    100% {
+        width: 47px;
+        right: 8px;
+        top: 38px;
+    }
+}
+.container-dots{
+    width: 45vw;
+}
+.dot-flashing {
+    display: none;
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+    animation: dot-flashing 1s infinite linear alternate;
+    animation-delay: 0.5s;
+}
+.stage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dot-flashing::before, .dot-flashing::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+}
+.dot-flashing::before {
+    left: -15px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+    animation: dot-flashing 1s infinite alternate;
+    animation-delay: 0s;
+}
+.dot-flashing::after {
+    left: 15px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+    animation: dot-flashing 1s infinite alternate;
+    animation-delay: 1s;
+}
+@keyframes dot-flashing {
+    0% {
+        background-color: #9880ff;
+    }
+    50%, 100% {
+        background-color: rgba(152, 128, 255, 0.2);
+    }
+}
+@media (max-width: 900px) {
+    .img_inscription{
+        display: none;
+    }
+
+    .section-connexion{
+        display: flex;
+        height: 90vh;
+        border: none;
+    }
+
+    .input_display{
+        padding: 0;
+        width: 100%;
+    }
+
+    .container_name_form input{
+        width: 22vw;
+    }
+}

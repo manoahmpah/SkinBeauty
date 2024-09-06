@@ -1,0 +1,87 @@
+@import url('variable.css');
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 0;
+    margin: 0;
+}
+
+.first_page{
+    background: url("../images/index/lips.jpg");
+    height: 100vh;
+    background-size: cover;
+}
+
+.SkinBeauty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    font-size: 10vw;
+    color: #ffffff;
+}
+
+.moreInfo{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    color: #ffffff;
+    & h2{
+        font-weight: 100;
+    }
+}
+
+
+h1{
+    font-family: var(--decoration-font), serif;
+    font-weight: 100;
+}
+
+h2{
+    font-family: var(--font-poppins), serif;
+}
+
+.presentation{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /*width: 100vw;*/
+    background-color: #f8f8f8;
+
+    & div{
+        width: 40%;
+    }
+}
+
+.presentation h3{
+    font-size: 3vw;
+}
+
+.presentation p{
+    font-size: 1.4vw;
+    font-weight: 100;
+    font-family: var(--font-poppins), serif;
+}
+
+.name_brain{
+    font-family: var(--decoration-font), serif;
+    font-weight: 100;
+}
+
+.customer_return{
+    background-color: black;
+    color: white;
+    padding: 1% 2%;
+}
+
+.All_comments{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3%;
+    padding: 1%;
+    justify-content: center;
+    align-items: center;
+}

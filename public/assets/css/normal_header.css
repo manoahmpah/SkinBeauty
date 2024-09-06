@@ -1,0 +1,58 @@
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li {
+    margin-left: 20px;
+    position: relative;
+}
+
+.nav-links a {
+    font-size: 15px;
+    text-decoration: none;
+    color: #333;
+    padding-bottom: 5px;
+    display: inline-block;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: #333;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transition: width 0.3s, left 0.3s;
+    transform: translateX(-50%);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+    left: 50%;
+}
+
+.nav-links a.active::after {
+    width: 100%;
+    left: 50%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f9f8f7;
+    border-bottom: 1px solid #ddd;
+}

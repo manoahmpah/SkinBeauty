@@ -1,0 +1,37 @@
+@font-face {
+    font-family: 'decoration-font';
+    src: url('../fonts/adriana-gabrielle/adriana-gabrielle-regular.woff');
+}
+
+@font-face {
+    font-family: 'decoration-font';
+    src: url('../fonts/adriana-gabrielle/adriana-gabrielle-regular.woff2');
+}
+
+@font-face {
+    font-family: 'poppins';
+    src: url('../fonts/Poppins/Poppins-Regular.ttf');
+}
+
+:root {
+    --secondary-color: #333;
+    --bg-color: #f8f8f8;
+    --text-color: #333;
+
+    /* footer */
+    --footer-bg: #f9f9f9;
+    --footer-text-color: #666;
+    --footer-link-color: #6c63ff;
+    --footer-link-hover-color: #333;
+    --footer-border-color: #e0e0e0;
+
+    /* service item */
+    --service-item-bg: #ffffff;
+    --service-item-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --service-item-title-color: #333;
+    --service-item-text-color: #666;
+
+    /* fonts */
+    --decoration-font: 'decoration-font', sans-serif;
+    --font-poppins: 'poppins', sans-serif;
+}
