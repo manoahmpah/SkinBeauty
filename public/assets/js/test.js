@@ -98,15 +98,28 @@ class Calendar {
         }
     }
 
-    CardAppointment(endHourTime, endMinuteTime, reservationContainer, reservation, reservationBounds){
+    CardAppointment(endHourTime, endMinuteTime, reservationContainer, reservation, reservationBounds, previousTop) {
         let [HourStart, minuteStart] = reservation.Hour_start.split(':');
         const [HourEnd, minuteEnd] = reservation.Hour_end.split(':');
         let reservationDiv = document.createElement('div');
         let serviceName = document.createElement('h1');
 
-
+        let topCard = (HourStart - endHourTime)*this.heightOfHour
+        topCard = reservationBounds.prev !== null ? topCard + previousTop : topCard;
+        if (reservationBounds.prev !== null) {
+            if (reservationBounds.prev.Hour_end > reservation.Hour_start) {
+                topCard = topCard - previousTop;
+            }
+        }
+        if (reservationBounds.prev !== null && reservationBounds.prev.Hour_end < reservation.Hour_start) {
+            const [prevHourStart, prevMinuteStart] = reservationBounds.prev.Hour_start.split(':');
+            if (Number(prevHourStart) === 9) {
+                topCard = topCard - previousTop;
+            }
+        }
         reservationDiv.style.position = 'relative';
-        reservationDiv.style.top = `${((HourStart - endHourTime)*this.heightOfHour)}vh`;
+        reservationDiv.style.top = `${(topCard)}vh`;
+
         reservationDiv.id = reservation.id_reservation;
 
         if (HourEnd - HourStart > 1){
@@ -115,25 +128,25 @@ class Calendar {
             reservationDiv.style.height = `${this.heightOfHour}vh`;
         }
 
-        // if (reservationBounds.prev !== null) {
-        //     if (reservationBounds.prev.Hour_end > reservation.Hour_start) {
-        //         reservationDiv.style.width = '49%';
-        //     }
-        // }
-        // if (reservationBounds.next !== null) {
-        //     if (reservationBounds.next.Hour_start < reservation.Hour_end) {
-        //         reservationDiv.style.width = '45%';
-        //         reservationDiv.style.left = '50%';
-        //     }
-        // }
+        if (reservationBounds.prev !== null) {
+            if (reservationBounds.prev.Hour_end > reservation.Hour_start) {
+
+                reservationDiv.style.width = '49%';
+            }
+        }
+        if (reservationBounds.next !== null) {
+            if (reservationBounds.next.Hour_start < reservation.Hour_end) {
+                reservationDiv.style.width = '45%';
+                reservationDiv.style.left = '50%';
+            }
+        }
 
         serviceName.textContent = reservation.name_service;
-
         reservationDiv.appendChild(serviceName);
         reservationContainer.appendChild(reservationDiv);
 
         (Number(HourStart) === 9) ? HourStart = HourEnd : HourStart;
-        return Number(HourStart);
+        return [Number(HourStart), topCard-9];
     }
 
 
@@ -168,7 +181,7 @@ class Calendar {
                     let endMinuteTime = 0;
 
                     let endHourTime = 9;
-
+                    let previousTop = 0;
                     reservationsForDay.forEach((reservation, index) => {
 
                         const reservationBounds = {
@@ -176,7 +189,7 @@ class Calendar {
                             next: index < reservationsForDay.length - 1 ? reservationsForDay[index + 1] : null
                         };
 
-                        endHourTime = this.CardAppointment(endHourTime, endMinuteTime, reservationContainer, reservation, reservationBounds);
+                        [endHourTime, previousTop] = this.CardAppointment(endHourTime, endMinuteTime, reservationContainer, reservation, reservationBounds, previousTop);
                     });
 
                     appointmentDiv.appendChild(reservationContainer);
