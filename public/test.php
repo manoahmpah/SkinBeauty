@@ -37,7 +37,34 @@ $session->start_session();
     <title>calendar</title>
 </head>
 <body>
+<?php
+if (isset($_POST["idCard"])){?>
+    <section id="modal">
+        <div>
+            <div>
+                <i class="fa-solid fa-xmark" id="closeModal"></i>
+            </div>
+            <?php
 
+            if (isset($_POST['idCard'])) {
+                $id = htmlspecialchars($_POST['idCard']);
+                $reservation = $request_obj->find_reservation_by_id($id);
+                echo "<h1 id='TitleModel'>" . $reservation["first_name"] . " " . $reservation["last_name"] . " - " . $reservation["name_service"] . "</h1>";
+                echo "<pre>";
+                print_r($request_obj->find_reservation_by_id($id));
+                echo "</pre>";
+            }else{
+                echo "Aucun ID n'a été envoyé";
+            }
+
+            ?>
+        </div>
+    </section>
+<?php
+}
+
+
+?>
 <section id="calendar">
     <div id="containerInfosDays">
         <div id="containerDateAndBtnAdd"></div>
@@ -74,7 +101,9 @@ $session->start_session();
 
 </section>
 
-
+<form action="" method="post" id="modalForm">
+    <input type="hidden" name="idCard" id="idCard">
+</form>
 <!--  Data check if admin -->
 
 

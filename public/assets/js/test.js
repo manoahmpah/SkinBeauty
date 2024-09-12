@@ -44,19 +44,6 @@ class Calendar {
         this.date = previousWeek;
         this.getWeekDates(previousWeek);
     }
-    sortResevation(reservation){
-        reservation.sort((a, b) => {
-            const [hourA, minuteA] = a.Hour_start.split(':').map(Number);
-            const [hourB, minuteB] = b.Hour_start.split(':').map(Number);
-
-            if (hourA === hourB) {
-                return minuteA - minuteB;
-            } else {
-                return hourA - hourB;
-            }
-        });
-        console.log(reservation);
-    }
 
     createDisplayWeek(daysDiv) {
         this.week.forEach(day => {
@@ -103,8 +90,9 @@ class Calendar {
         const [HourEnd, minuteEnd] = reservation.Hour_end.split(':');
         let reservationDiv = document.createElement('div');
         let serviceName = document.createElement('h1');
-
         let topCard = (HourStart - endHourTime)*this.heightOfHour
+
+        reservationDiv.className = 'CardAppointment';
         topCard = reservationBounds.prev !== null ? topCard + previousTop : topCard;
         if (reservationBounds.prev !== null) {
             if (reservationBounds.prev.Hour_end > reservation.Hour_start) {
@@ -156,7 +144,7 @@ class Calendar {
         let containerDateAndBtnAdd = document.getElementById('containerDateAndBtnAdd');
         let containerAppointments = document.getElementById('containerAppointments');
 
-        console.log(dataReservation);
+        // console.log(dataReservation);
 
         !daysDiv ? console.error('Element with id "Days" not found.') : daysDiv
 
@@ -204,6 +192,31 @@ class Calendar {
         }
     }
 
+    openModal = () => {
+        let modal = document.getElementById('modal');
+        const Cards = document.getElementsByClassName('CardAppointment');
+        const form = document.getElementById('modalForm');
+        const inputForm = document.getElementById('idCard');
+
+        Array.from(Cards).forEach(card => {
+            card.addEventListener("click", (e) => {
+                console.log(card.getAttribute('id'));
+                inputForm.value = card.getAttribute('id');
+                form.submit();
+            });
+        });
+    }
+
+
+    closeModal() {
+        let modal = document.getElementById('modal');
+        let iconClose = document.getElementById('closeModal');
+        iconClose.addEventListener("click", (e) => {
+            modal.style.display = 'none';
+        });
+
+    }
+
 }
 let date = new Date();
 let calendar = new Calendar(date);
@@ -212,9 +225,18 @@ calendar.displayCalendar();  // Affiche les jours dans la div "Days"
 document.getElementById('NextWeek').addEventListener('click', () => {
     calendar.getNextWeek();
     calendar.displayCalendar();
+    calendar.openModal();
+    calendar.closeModal();
+
 });
 
 document.getElementById('PreviousWeek').addEventListener('click', ()=> {
     calendar.getPreviousWeek();
     calendar.displayCalendar();
+    calendar.openModal();
+    calendar.closeModal();
+
 });
+
+calendar.openModal();
+calendar.closeModal();
