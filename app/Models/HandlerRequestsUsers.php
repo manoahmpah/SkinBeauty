@@ -103,13 +103,14 @@ class HandlerRequestsUsers
 
     public function get_all_reservations()
     {
-        $req = $this->bdd[1]->prepare('SELECT id_reservation, Start_date_reservation, Hour_start, credits_left, name_formula, Price, State, name_service FROM reservation 
-                                                                                     JOIN formulas ON reservation.Id_formula = formulas.Id_formula 
-                                                                                     JOIN name_formula ON formulas.Id_name_formula = name_formula.id_name_formula 
-                                                                                     JOIN categories ON formulas.Id_category = categories.Id_category
-                                                                                     JOIN services ON categories.Id_services = services.Id_services
-                                                                                     ORDER BY Start_date_reservation ASC'
-        );
+        $req = $this->bdd[1]->prepare('SELECT id_reservation, Start_date_reservation, Hour_start, Hour_end, credits_left, name_formula, Price, State, name_service 
+                               FROM reservation 
+                               JOIN formulas ON reservation.Id_formula = formulas.Id_formula 
+                               JOIN name_formula ON formulas.Id_name_formula = name_formula.id_name_formula 
+                               JOIN categories ON formulas.Id_category = categories.Id_category
+                               JOIN services ON categories.Id_services = services.Id_services
+                               ORDER BY Start_date_reservation ASC, Hour_start ASC');
+
         $req->execute();
         return $req->fetchAll();
     }
