@@ -92,6 +92,18 @@ class Calendar {
         let serviceName = document.createElement('h1');
         let topCard = (HourStart - endHourTime)*this.heightOfHour
 
+        if (Number(minuteStart)%15 === 0 && Number(minuteStart) !== 0){
+            topCard += (Number(minuteStart)/15)*(this.heightOfHour/4);
+        }
+
+        if (reservationBounds.prev !== null) {
+            let endHourInMinutes = Number(reservationBounds.prev.Hour_end.split(':')[0]) * 60 + Number(reservationBounds.prev.Hour_end.split(':')[1]);
+            let startHourInMinutes = Number(reservationBounds.prev.Hour_start.split(':')[0]) * 60 + Number(reservationBounds.prev.Hour_start.split(':')[1]);
+            if ((endHourInMinutes - startHourInMinutes)%60 !== 0){
+                topCard += ((endHourInMinutes - startHourInMinutes)%60)/15 * (this.heightOfHour / 4)
+            }
+        }
+
         reservationDiv.className = 'CardAppointment';
         topCard = reservationBounds.prev !== null ? topCard + previousTop : topCard;
         if (reservationBounds.prev !== null) {
@@ -100,7 +112,7 @@ class Calendar {
             }
         }
         if (reservationBounds.prev !== null && reservationBounds.prev.Hour_end < reservation.Hour_start) {
-            const [prevHourStart, prevMinuteStart] = reservationBounds.prev.Hour_start.split(':');
+            const [prevHourStart] = reservationBounds.prev.Hour_start.split(':');
             if (Number(prevHourStart) === 9) {
                 topCard = topCard - previousTop;
             }
@@ -115,6 +127,18 @@ class Calendar {
         }else{
             reservationDiv.style.height = `${this.heightOfHour}vh`;
         }
+
+        // Dimmenssionnement de la hauteur de la carte en fonction de l'heure de début
+        if ((HourStart*60 + Number(minuteStart))%60 !== 0){
+            reservationDiv.style.height = `${(((HourStart*60 + Number(minuteStart))%60) / 15)*(this.heightOfHour/4)}vh`;
+        }
+        // Dimmenssionnement de la hauteur de la carte en fonction de l'heure de fin
+        if ((HourEnd*60 + Number(minuteEnd))%60 !== 0){
+            let currentHeight = parseFloat(reservationDiv.style.height) || 0;
+            let Height = (((HourEnd*60 + Number(minuteEnd))%60) / 15)*(this.heightOfHour/4);
+            reservationDiv.style.height = `${currentHeight + Height}vh`;
+        }
+
 
         if (reservationBounds.prev !== null) {
             if (reservationBounds.prev.Hour_end > reservation.Hour_start) {
@@ -137,15 +161,42 @@ class Calendar {
         return [Number(HourStart), topCard-9];
     }
 
+    createLineTime(top = "") {
+        let containerAppointments = document.getElementById('containerAppointments');
+        if (!containerAppointments) {
+            console.error('containerAppointments not found');
+            return;
+        }
+
+        let lineTime = document.createElement('div');
+        lineTime.className = 'lineTime';
+        lineTime.style.position = "relative";
+        lineTime.style.top = top;
+        lineTime.style.width = "calc(100% - 1px)";
+        lineTime.style.height = "1px";
+        lineTime.style.backgroundColor = "rgb(0 0 0 / 14%)";
+
+        containerAppointments.appendChild(lineTime);
+    }
+
+
 
     displayCalendar() {
         const dataReservation = JSON.parse(document.getElementById('dataReservation').getAttribute('data-reservation'));
         let daysDiv = document.getElementById('Days');
         let containerDateAndBtnAdd = document.getElementById('containerDateAndBtnAdd');
         let containerAppointments = document.getElementById('containerAppointments');
+        let containerWrapper = document.createElement('div');
 
-        // console.log(dataReservation);
-
+        this.createLineTime("1.4vh");
+        this.createLineTime("10.5vh");
+        this.createLineTime("19.5vh");
+        this.createLineTime("28.5vh");
+        this.createLineTime("37.5vh");
+        this.createLineTime("46.5vh");
+        this.createLineTime("55.5vh");
+        this.createLineTime("64.5vh");
+        this.createLineTime("73.5vh");
         !daysDiv ? console.error('Element with id "Days" not found.') : daysDiv
 
         daysDiv.innerHTML = '';
@@ -154,9 +205,8 @@ class Calendar {
         this.createDisplayWeek(daysDiv);
         this.createDisplayMonthYear(containerDateAndBtnAdd);
 
-
         if (containerAppointments) {
-            containerAppointments.innerHTML = '';
+            containerWrapper.className = 'container-wrapper';
 
             this.week.forEach(day => {
                 let appointmentDiv = document.createElement('div');
@@ -167,11 +217,9 @@ class Calendar {
                     reservationContainer.className = 'reservation-container';
 
                     let endMinuteTime = 0;
-
                     let endHourTime = 9;
                     let previousTop = 0;
                     reservationsForDay.forEach((reservation, index) => {
-
                         const reservationBounds = {
                             prev: index > 0 ? reservationsForDay[index - 1] : null,
                             next: index < reservationsForDay.length - 1 ? reservationsForDay[index + 1] : null
@@ -187,10 +235,15 @@ class Calendar {
                     appointmentDiv.appendChild(noReservation);
                 }
 
-                containerAppointments.appendChild(appointmentDiv);
+                // Ajouter chaque appointmentDiv dans le wrapper
+                containerWrapper.appendChild(appointmentDiv);
             });
+
+            // Ajouter le wrapper à containerAppointments
+            containerAppointments.appendChild(containerWrapper);
         }
     }
+
 
     openModal = () => {
         let modal = document.getElementById('modal');

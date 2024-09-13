@@ -75,6 +75,7 @@ if (isset($_POST["idCard"])){?>
 
                 </div>
                 <div>
+
                     <p>9h</p>
                     <p>10h</p>
                     <p>11h</p>
@@ -89,7 +90,8 @@ if (isset($_POST["idCard"])){?>
 
             <div id="containerDayAndAppointment">
                 <div id="Days"></div>
-                <div id="containerAppointments"></div>
+                <div id="containerAppointments">
+                </div>
             </div>
 
             <div id="NextWeek">

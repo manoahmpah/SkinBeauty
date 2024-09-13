@@ -63,7 +63,7 @@ h1:not(#containerDateAndBtnAdd h1, .reservation-container h1, #TitleModel){
     height: 6vh;
     width: 4vw;
     background-color: black;
-    margin: 0 1vw 1vh;
+    margin: 0 1vw 3vh;
     border-radius: 5px;
     cursor: pointer;
     display: flex;
@@ -72,22 +72,23 @@ h1:not(#containerDateAndBtnAdd h1, .reservation-container h1, #TitleModel){
 }
 
 
-#containerAppointments{
+.container-wrapper{
     display: flex;
     height: 75vh;
 }
 
-#containerAppointments > div{
+.container-wrapper > div{
     width: 13vw;
+    height: 98% ;
     text-align: center;
     border-right: 1px solid rgb(0 0 0 / 14%);
 }
 
-#containerAppointments > div > p{
+.container-wrapper > div > p{
     color: rgb(0 0 0 / 14%);
 }
 
-#containerAppointments > div:first-child{
+.container-wrapper > div:first-child{
     border-left: 1px solid rgb(0 0 0 / 14%);
 }
 
