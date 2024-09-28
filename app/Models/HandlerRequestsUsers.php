@@ -24,17 +24,12 @@ class HandlerRequestsUsers
         ]);
     }
 
-    public function update_one_credits($id_reservation)
+    public function update_one_credits($id_reservation): void
     {
         $req = $this->bdd[1]->prepare('UPDATE reservation SET credits_left = credits_left - 1 WHERE id_reservation = :id_reservation');
         $req->execute([
             ':id_reservation' => $id_reservation
         ]);
-    }
-
-    public function delete_one_credit()
-    {
-
     }
 
     public function user_exists(string $email): bool
@@ -58,24 +53,35 @@ class HandlerRequestsUsers
         return $req->fetch();
     }
 
-    public function update_user($id, $first_name, $last_name, $email, $password, $role)
+    public function get_services_order_by_formulas()
     {
-        $database = new Database();
-        $bdd = $database->connect_bdd();
-
-        if ($bdd[0]) {
-            $bdd = $bdd[1];
-            $query = $bdd->prepare("UPDATE people SET first_name = :first_name, last_name = :last_name, email = :email, password = :password, role = :role WHERE id_people = :id");
-            $query->execute([
-                'id' => $id,
-                'first_name' => $first_name,
-                'last_name' => $last_name,
-                'email' => $email,
-                'password' => $password,
-                'role' => $role
-            ]);
-        }
+        $req = $this->bdd[1]->prepare('SELECT * FROM categories 
+                                        JOIN services ON categories.id_services = services.id_services
+                                        JOIN formulas ON categories.id_category = formulas.id_category
+                                        ORDER BY services.name_service ASC
+                                        ');
+        $req->execute();
+        return $req->fetchAll();
     }
+
+//    public function update_user($id, $first_name, $last_name, $email, $password, $role)
+//    {
+//        $database = new Database();
+//        $bdd = $database->connect_bdd();
+//
+//        if ($bdd[0]) {
+//            $bdd = $bdd[1];
+//            $query = $bdd->prepare("UPDATE people SET first_name = :first_name, last_name = :last_name, email = :email, password = :password, role = :role WHERE id_people = :id");
+//            $query->execute([
+//                'id' => $id,
+//                'first_name' => $first_name,
+//                'last_name' => $last_name,
+//                'email' => $email,
+//                'password' => $password,
+//                'role' => $role
+//            ]);
+//        }
+//    }
 
     public function register_user($first_name, $last_name, $email, $password): void {
         $req = $this->bdd[1]->prepare('INSERT INTO people (first_name, last_name, email, password, Is_admin, Creation_date) VALUES (:first_name, :last_name, :email, :password, :role, NOW())');
@@ -154,20 +160,6 @@ class HandlerRequestsUsers
         return $req->fetch();
     }
 
-    public function add_reservation($date, $time, $formula, $id_people, $credits_left): void
-    {
-        $req = $this->bdd[1]->prepare('INSERT INTO reservation (Start_date_reservation, Hour_start, Id_formula, Id_people, credits_left, State) VALUES (:date, :time, :formula, :id_people, :credits_left, 1)');
-        $req->execute([
-            ':date' => $date,
-            ':time' => $time,
-            ':formula' => $formula,
-            ':id_people' => $id_people,
-            ':credits_left' => $credits_left
-        ]);
-
-
-    }
-
     public function get_credit_from_formulas($id_formula){
         $req = $this->bdd[1]->prepare('SELECT credits FROM formulas WHERE Id_formula = :id_formula');
         $req->execute(
@@ -185,4 +177,79 @@ class HandlerRequestsUsers
             ':name_image' => $name_image
         ]);
     }
+
+    public function modify_reservation($id, $first_name, $last_name, $start_date_reservation, $hour_start, $hour_end, $credits_left, $name_formula, $price){
+        $req = $this->bdd[1]->prepare('UPDATE reservation SET first_name = :first_name, last_name = :last_name, Start_date_reservation = :start_date_reservation, Hour_start = :hour_start, Hour_end = :hour_end, credits_left = :credits_left, name_formula = :name_formula, Price = :price WHERE id_reservation = :id');
+        $req->execute([
+            ':id' => $id,
+            ':first_name' => $first_name,
+            ':last_name' => $last_name,
+            ':start_date_reservation' => $start_date_reservation,
+            ':hour_start' => $hour_start,
+            ':hour_end' => $hour_end,
+            ':credits_left' => $credits_left,
+            ':name_formula' => $name_formula,
+            ':price' => $price
+        ]);
+    }
+
+    public function add_reservation($email, $first_name, $last_name, $start_date, $start_time, $end_time, $formula) {
+        // Étape 1 : Vérifier si l'utilisateur existe
+        if (!$this->user_exists($email)) {
+            // Étape 2 : Créer l'utilisateur si nécessaire
+            $this->create_default_user($first_name, $last_name, $email);
+        }
+
+        // Étape 3 : Récupérer les informations de l'utilisateur
+        $user = $this->get_infos_user($email);
+        $id_people = $user['id_people'];
+
+        // Étape 4 : Récupérer les crédits de la formule sélectionnée
+        $credits = $this->get_credit_from_formulas($formula)['credits'];
+
+        // Étape 5 : Insérer la réservation dans la base de données
+        $req = $this->bdd[1]->prepare('INSERT INTO reservation (Start_date_reservation, Hour_start, Hour_end, Id_formula, Id_people, credits_left, state) 
+                                    VALUES (:date, :start_time, :end_time, :formula, :id_people, :credits, 1)');
+        $req->execute([
+            ':date' => $start_date,
+            ':start_time' => $start_time,
+            ':end_time' => $end_time,
+            ':formula' => $formula,
+            ':id_people' => $id_people,
+            ':credits' => $credits
+        ]);
+    }
+
+    public function create_default_user($first_name, $last_name, $email) {
+        // Créer un utilisateur par défaut
+        $password = password_hash('defaultpassword', PASSWORD_BCRYPT);
+        $req = $this->bdd[1]->prepare('INSERT INTO people (first_name, last_name, email, password, ls_admin, Creation_date) 
+                                    VALUES (:first_name, :last_name, :email, :password, 0, NOW())');
+        $req->execute([
+            ':first_name' => $first_name,
+            ':last_name' => $last_name,
+            ':email' => $email,
+            ':password' => $password
+        ]);
+    }
+
+    public function get_all_users() {
+        $req = $this->bdd[1]->prepare('SELECT first_name, last_name FROM people');
+        $req->execute();
+        return $req->fetchAll();
+    }
+
+    public function add_reservation_by_user($user_id, $start_date, $start_time, $end_time, $formula) {
+        $sql = "INSERT INTO reservations (user_id, start_date, start_time, end_time, formula)
+            VALUES (:user_id, :start_date, :start_time, :end_time, :formula)";
+        $stmt = $this->bdd->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':start_date', $start_date);
+        $stmt->bindParam(':start_time', $start_time);
+        $stmt->bindParam(':end_time', $end_time);
+        $stmt->bindParam(':formula', $formula);
+        $stmt->execute();
+    }
+
+
 }

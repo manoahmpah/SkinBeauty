@@ -25,14 +25,12 @@ $Register = new \Models\HandleRegister();
 
 // password check //
 if (isset($_POST["email"]) && isset($_POST["password"])){
-
     $Connexion = new \Models\HandleConnexion($_POST["email"], $_POST["password"]);
     $verification = $Connexion->verification_connexion_email_password();
-
     if ($verification["state"]){
 
         $user_infos = $verification["user_info"];
-        $session->set_session_user($user_infos["email"], $user_infos["first_name"], $user_infos["last_name"], $user_infos["id_people"], $user_infos["Is_admin"], $user_infos["phone_number"]);
+        $session->set_session_user($user_infos["email"], $user_infos["first_name"], $user_infos["last_name"], $user_infos["id_people"], $user_infos["is_admin"], $user_infos["phone_number"]);
         $valid = $verification["message"];
 
     }else{

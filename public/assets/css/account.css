@@ -1,6 +1,6 @@
 body{
-
-
+    overflow-y: scroll;
+    overflow-x: hidden;
     /*  color  */
     --background-color: #F9F6F6;
     --primary-color: #0A0A0A;
@@ -65,23 +65,6 @@ h2, h3{
     font-weight: 600;
 }
 
-.section_infos_customer{
-    display: grid;
-    grid-template-columns: 45% 40%;
-
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 3rem;
-}
-
-.section_infos_customer > div{
-
-    padding: 5vh 3vw;
-    border-radius: 12px;
-}
-.section_infos_customer > div:not(:first-child){
-    padding: calc(5vh + 8px) 3vw;
- }
 
 .icon_calendar{
     display: block;
@@ -239,12 +222,12 @@ h2, h3{
 }
 
 .statistics-services{
-    width: 350px ;
+    width: 100vw;
 }
 
 .statistics-peoples{
-    min-width: 350px;
-    width: 750px ;
+    width: 100vw;
+    height: 70vh;
 }
 
 .confirmation{
@@ -329,7 +312,6 @@ body.modal-open {
 
     .reservations-table, .table-header-row, .table-row, .table-cell, .table-header {
         display: block;
-        width: 100%;
     }
 
     tbody{
@@ -388,6 +370,26 @@ body.modal-open {
 
     .fa-calendar:before{
         display: none;
+    }
+
+}
+
+.add_reservation{
+    text-decoration: none;
+    width: fit-content;
+    margin-left: 5%;
+    color: white;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    gap: 1%;
+    & h2{
+        margin: 0;
+        width: 13em;
+        font-size: 0.8em;
+    }
+    & i{
+        margin: 5%;
     }
 
 }

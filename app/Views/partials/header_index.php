@@ -11,50 +11,6 @@ $request_obj = new HandlerRequestsUsers(); ?>
     <div class="logo">
         <h1>S<span class="BofLogo">B</span></h1>
     </div>
-    <div class="container_resevation_shortcut">
-        <form action="" id="form_shortcut_reservation">
-            <div>
-                <label for="reservation"></label>
-                <input name="reservation" id="reservation_date" type="date">
-            </div>
-            <div>
-                <label for="reservation"></label>
-                <select name="reservation" id="reservation" disabled>
-                    <option value="A">
-                        A
-                    </option>
-                </select>
-
-            </div>
-            <div>
-                <label for=""></label>
-                <select name="" id="" disabled>
-                    <option value="Heure">
-                        Heure
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for=""></label>
-                <select name="" id="" disabled>
-                    <option value="Services">
-                        Services
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for=""></label>
-                <select name="" id="" disabled>
-                    <option value="Formules">
-                        Formules
-                    </option>
-                </select>
-            </div>
-            <div>
-                <button disabled id="btn_reservation"><i class="fa-solid fa-arrow-right" style="color: #ffffff;"></i></button>
-            </div>
-        </form>
-    </div>
     <nav>
         <ul>
             <li><a href="/project/public/index.php">Accueil</a></li>

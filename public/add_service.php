@@ -87,6 +87,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="assets/css/normal_header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="assets/css/upload_form.css"> <!-- Fichier CSS pour styliser le formulaire -->
+
+    <!-- JS -->
+    <script defer src="assets/js/upload_form.js"></script>
 </head>
 <body>
 
@@ -94,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <section class="upload-section">
 
-    <form action="#" method="POST" enctype="multipart/form-data" class="upload-form">
+    <form action="#" method="POST" enctype="multipart/form-data" id="form-services" class="upload-form">
         <div class="form-group">
             <label for="file">Sélectionner une image :</label>
             <input type="file" name="file" id="file">
@@ -102,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="form-group">
             <label for="name_service">Nom du service :</label>
-            <input type="text" name="name_service" id="name_service" placeholder="Nom du service">
+            <input type="text" name="name_service" id="name_service" value="hello" placeholder="Nom du service">
         </div>
 
         <div class="form-group">
@@ -110,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <textarea name="details" id="details" placeholder="Détails du service"></textarea>
         </div>
 
-        <button type="submit" class="btn-upload">Télécharger</button>
+        <button type="submit" id="add-category" class="btn-upload" disabled>Ajouter une catégorie</button>
     </form>
 </section>
 

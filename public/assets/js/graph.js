@@ -1,4 +1,4 @@
-class Account {
+class Graph {
     constructor() {
         // Supposons que les attributs data sont des chaînes JSON
         this.service_value = JSON.parse(document.getElementById('service_value').getAttribute('data-value'));
@@ -20,8 +20,8 @@ class Account {
                     label: 'Répartition des Services',
                     data: this.service_value,
                     backgroundColor: [
-                        '#0FA3B1', '#16425B', '#FFD166', '#778DA9', '#B5E2FA',
-                        '#EDDEA4', '#F7A072', '#0D1B2A', '#A9A377'
+                        '#FFFFFF', '#D1D6DB', '#C1C4CC', '#A1A7B1', '#6D767F',
+                        '#586168', '#3A4147', '#28323A', '#000000'
                     ],
                     hoverOffset: 4
                 }]
@@ -91,16 +91,17 @@ class Account {
             labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
             datasets: [{
                 label: 'Nombre de personnes par mois',
-                data: this.data_peoples, // Assurez-vous que this.data_peoples est bien définie dans le contexte actuel
-                backgroundColor: 'rgba(72, 207, 173, 0.2)', // Couleur de fond moderne
-                borderColor: '#48CFAF', // Couleur de la ligne moderne
-                borderWidth: 3, // Épaisseur de la ligne
-                pointBackgroundColor: '#FF6F61', // Couleur des points moderne
-                pointBorderColor: '#FFFFFF', // Bordure des points
-                pointHoverBackgroundColor: '#FFFFFF', // Couleur des points au survol
-                pointHoverBorderColor: '#FF6F61', // Bordure des points au survol
-                pointRadius: 6, // Taille des points légèrement plus grande
-                pointHoverRadius: 8 // Taille des points au survol légèrement plus grande
+                data: this.data_peoples,
+                backgroundColor: 'rgba(0,0,0,0.1)', // Fond bleu léger
+                borderColor: 'rgba(0,0,0,0.39)', // Couleur de la ligne bleu
+                borderWidth: 3,
+                pointBackgroundColor: '#000000', // Bleu pour les points
+                pointBorderColor: '#000000',
+                pointHoverBackgroundColor: 'rgba(0,0,0,0.14)',
+                pointRadius: 5,
+                pointHoverRadius: 8,
+                tension: 0.4, // Courbure de la ligne (plus courbé)
+                fill: true // Remplir la courbe
             }]
         };
 
@@ -110,34 +111,16 @@ class Account {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    display: true,
-                    position: 'top',
-                    labels: {
-                        color: '#333', // Couleur de légende neutre
-                        font: {
-                            size: 14,
-                            family: 'Helvetica Neue, Arial, sans-serif', // Police moderne
-                            weight: '500' // Poids de police semi-gras pour modernité
-                        },
-                        padding: 20,
-                        boxWidth: 15
-                    }
+                    display: false // Suppression de la légende
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)', // Fond de tooltip plus sombre
-                    titleColor: '#fff',
-                    titleFont: {
-                        size: 14,
-                        weight: 'normal'
-                    },
-                    bodyColor: '#fff',
-                    bodyFont: {
-                        size: 12
-                    },
+                    backgroundColor: '#333',
+                    titleColor: '#FFF',
+                    bodyColor: '#DDD',
                     padding: 10,
                     callbacks: {
                         label: function(tooltipItem) {
-                            return `${tooltipItem.label}: ${tooltipItem.raw}`; // Affiche uniquement la valeur
+                            return `${tooltipItem.label}: ${tooltipItem.raw}`;
                         }
                     }
                 }
@@ -150,19 +133,19 @@ class Account {
                         text: 'Mois',
                         font: {
                             size: 14,
-                            weight: '500', // Poids de police semi-gras
-                            family: 'Helvetica Neue, Arial, sans-serif'
+                            family: 'Arial, sans-serif',
+                            weight: 'bold'
                         },
-                        color: '#333' // Couleur de texte plus neutre
+                        color: '#333'
                     },
                     ticks: {
-                        color: '#777', // Couleur de texte modernisée
+                        color: '#555',
                         font: {
                             size: 12
                         }
                     },
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.1)', // Ligne de grille subtile
+                        color: 'rgba(200, 200, 200, 0.2)' // Grille discrète
                     }
                 },
                 y: {
@@ -172,25 +155,33 @@ class Account {
                         text: 'Nombre de personnes',
                         font: {
                             size: 14,
-                            weight: '500', // Poids de police semi-gras
-                            family: 'Helvetica Neue, Arial, sans-serif'
+                            family: 'Arial, sans-serif',
+                            weight: 'bold'
                         },
                         color: '#333'
                     },
                     ticks: {
-                        color: '#777', // Couleur de texte modernisée
+                        color: '#555',
                         font: {
                             size: 12
                         }
                     },
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.1)', // Ligne de grille subtile
+                        color: 'rgba(200, 200, 200, 0.2)'
                     }
                 }
             },
             animation: {
-                duration: 1000, // Durée d'animation légèrement plus longue pour une transition plus fluide
-                easing: 'easeInOutCubic' // Animation fluide et moderne
+                duration: 1000,
+                easing: 'easeInOutCubic' // Animation plus fluide
+            },
+            elements: {
+                line: {
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 10,
+                    shadowBlur: 20,
+                    shadowColor: 'rgba(0, 0, 0, 0.15)' // Ombre sous la courbe
+                }
             }
         };
 
@@ -204,10 +195,12 @@ class Account {
 
 
 
+
+
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const account = new Account();
+    const account = new Graph();
     account._init();
     account.create_graph();
     account.createCurve();

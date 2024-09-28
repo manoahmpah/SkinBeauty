@@ -74,3 +74,9 @@ body{
 .btn-upload:hover {
     background-color: #218838;
 }
+
+.btn-upload:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+

@@ -91,6 +91,7 @@ $service = $request_obj->get_services_by_id($_GET['id']);
 
 
 
+
                     for ($i = 0; $i < count($arr_categories); $i++){
                         echo "<div class='container-category'>";
                         echo "<h3>".$arr_categories[$i]['name_category']."</h3>";
@@ -98,7 +99,7 @@ $service = $request_obj->get_services_by_id($_GET['id']);
                         for ($j = 0; $j < count($arr_categories[$i]['formula']); $j++){
                             echo "<a href='hour.php?formula=" . $arr_categories[$i]['formula'][$j][2] . "' class='formula'>";
                             echo "<p>".$arr_categories[$i]['formula'][$j][0]."</p>";
-                            echo "<p>".$arr_categories[$i]['formula'][$j][1]." €</p>";
+                            echo $arr_categories[$i]['formula'][$j][1] !== "0.00" ? "<p>".$arr_categories[$i]['formula'][$j][1]." €</p>" : " ";
                             echo "</a>";
                         }
                         echo "</div>";

@@ -17,9 +17,9 @@ $session = new Sessions\HandlerSessions();
 $session->start_session();
 
 $data_people = array_fill(1, 12, 0);
-foreach ($request_obj->get_creation_date_users_by_month() as $creation_date) {
-    $data_people[$creation_date["month"]] = $creation_date["nb_users"];
-}
+//foreach ($request_obj->get_creation_date_users_by_month() as $creation_date) {
+//    $data_people[$creation_date["month"]] = $creation_date["nb_users"];
+//}
 
 if (isset($_POST['deny'])) {
     $request_obj->update_reservation_state($_POST['deny'], 2);
@@ -45,12 +45,14 @@ if (isset($_POST['deny'])) {
     <!-- CSS  -->
     <link rel="stylesheet" href="assets/css/account.css">
     <link rel="stylesheet" href="assets/css/normal_header.css">
+    <link rel="stylesheet" href="assets/css/calendar.css">
 
     <!-- JS  -->
     <script src="https://kit.fontawesome.com/ba74dd8982.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="assets/js/calendar.js"></script>
 
-    <script src="assets/js/account.js" defer></script>
+    <script src="assets/js/graph.js" defer></script>
 
     <title>Mon compte</title>
 </head>
@@ -62,7 +64,6 @@ if (isset($_POST['deny'])) {
                 <div class="popup-content">
                     <h2>Confirmer</h2>
                     <?php
-                    print_r($_POST);
                     if (isset($_POST["validate-resevation"])) {?>
                     <p>voulez-vous vraiment confirmer cette commande ?</p>
                     <?php } else {?>
@@ -87,37 +88,17 @@ if (isset($_POST['deny'])) {
 } ?>
 
 <?php include '../app/Views/partials/normal_header.php'; ?>
-        <section class="section_infos_customer">
-            <div class="container_infos new_section">
-                <div>
-                    <h2>Mon compte</h2>
-                    <?php if ($session->get_session_user()['Role'] == 1) { ?>
-                        <h3>admin</h3>
-                    <?php } else {?>
-                        <h3>client</h3>
-                    <?php } ?>
-                </div>
-                <p class="name"><?= $session->get_session_user()['First_name'] . ' ' . $session->get_session_user()['Last_name'] ?></p>
-                <p><?= $session->get_session_user()['Email'] ?></p>
-                <button>Changer</button>
-            </div>
-            <div class="container_appointment new_section">
-                <div>
-                    <h3>Prendre rendez-vous</h3>
-                    <p>Vos rendez-vous sera envoyé à SkinBeauty avec vos informations personnelles, veuillez vérifier que votre email et votre prénom soit correct, veuillez noter que vous disposez de 5 jours avant la résevation min avant d'annuler merci d'avance</p>
-                </div>
-                <div>
-                    <i class="fa-regular fa-calendar icon_calendar fa-6x" style="color: #ffffff;"></i>
-                </div>
-            </div>
-        </section>
+<?php require_once 'calendar.php' ?>
+
+
+<?php $_SESSION['auth']['Role'] == 1 ? calendar($request_obj, $session) : " " ?>
         <section class="stat section-stat">
             <?php if ($_SESSION['auth']['Role'] === 1){ ?>
                 <section class="new_section statistics-services">
-                    <canvas id="statistics-services" height="400"></canvas>
+                    <canvas id="statistics-services"></canvas>
                 </section>
                 <section class="new_section statistics-peoples">
-                    <canvas id="statistics-peoples" height="400"></canvas>
+                    <canvas id="statistics-peoples"></canvas>
                 </section>
             <?php } ?>
         </section>
@@ -268,7 +249,6 @@ if (isset($_POST['deny'])) {
 <div id="service_name" data-name="<?= htmlspecialchars(json_encode(array_keys($list_services))); ?>"></div>
 
 <div id="data_number_peoples_by_month" data-peoples="<?= htmlspecialchars(json_encode(array_values($data_people))); ?>"></div>
-
 
 </body>
 </html>

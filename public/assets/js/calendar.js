@@ -3,6 +3,7 @@ class Calendar {
         this.date = date;
         this.week = [];
         this.heightOfHour = 9;
+        this.topCard = 0;
     }
 
     getWeekDates(date) {
@@ -85,80 +86,37 @@ class Calendar {
         }
     }
 
-    CardAppointment(endHourTime, endMinuteTime, reservationContainer, reservation, reservationBounds, previousTop) {
+    convertTimeToMinute(hour, minute) {
+        return Number(hour) * 60 + Number(minute);
+    }
+
+    CardAppointment(reservationContainer, reservation) {
         let [HourStart, minuteStart] = reservation.Hour_start.split(':');
         const [HourEnd, minuteEnd] = reservation.Hour_end.split(':');
         let reservationDiv = document.createElement('div');
         let serviceName = document.createElement('h1');
-        let topCard = (HourStart - endHourTime)*this.heightOfHour
 
-        if (Number(minuteStart)%15 === 0 && Number(minuteStart) !== 0){
-            topCard += (Number(minuteStart)/15)*(this.heightOfHour/4);
-        }
+        const startingTime = this.convertTimeToMinute(HourStart, minuteStart);
+        const endingTime = this.convertTimeToMinute(HourEnd, minuteEnd);
+        const nine = this.convertTimeToMinute(9, 0);
 
-        if (reservationBounds.prev !== null) {
-            let endHourInMinutes = Number(reservationBounds.prev.Hour_end.split(':')[0]) * 60 + Number(reservationBounds.prev.Hour_end.split(':')[1]);
-            let startHourInMinutes = Number(reservationBounds.prev.Hour_start.split(':')[0]) * 60 + Number(reservationBounds.prev.Hour_start.split(':')[1]);
-            if ((endHourInMinutes - startHourInMinutes)%60 !== 0){
-                topCard += ((endHourInMinutes - startHourInMinutes)%60)/15 * (this.heightOfHour / 4)
-            }
-        }
 
-        reservationDiv.className = 'CardAppointment';
-        topCard = reservationBounds.prev !== null ? topCard + previousTop : topCard;
-        if (reservationBounds.prev !== null) {
-            if (reservationBounds.prev.Hour_end > reservation.Hour_start) {
-                topCard = topCard - previousTop;
-            }
-        }
-        if (reservationBounds.prev !== null && reservationBounds.prev.Hour_end < reservation.Hour_start) {
-            const [prevHourStart] = reservationBounds.prev.Hour_start.split(':');
-            if (Number(prevHourStart) === 9) {
-                topCard = topCard - previousTop;
-            }
-        }
-        reservationDiv.style.position = 'relative';
-        reservationDiv.style.top = `${(topCard)}vh`;
-
+        reservationDiv.className = ` CardAppointment ${reservation.name_service}`;
         reservationDiv.id = reservation.id_reservation;
+        // Getion de la taille des réservations
+        reservationDiv.style.height = `${((endingTime - startingTime) / 15) * (this.heightOfHour / 4)}vh`;
 
-        if (HourEnd - HourStart > 1){
-            reservationDiv.style.height = `${((HourEnd - HourStart)*this.heightOfHour)}vh`;
-        }else{
-            reservationDiv.style.height = `${this.heightOfHour}vh`;
-        }
-
-        // Dimmenssionnement de la hauteur de la carte en fonction de l'heure de début
-        if ((HourStart*60 + Number(minuteStart))%60 !== 0){
-            reservationDiv.style.height = `${(((HourStart*60 + Number(minuteStart))%60) / 15)*(this.heightOfHour/4)}vh`;
-        }
-        // Dimmenssionnement de la hauteur de la carte en fonction de l'heure de fin
-        if ((HourEnd*60 + Number(minuteEnd))%60 !== 0){
-            let currentHeight = parseFloat(reservationDiv.style.height) || 0;
-            let Height = (((HourEnd*60 + Number(minuteEnd))%60) / 15)*(this.heightOfHour/4);
-            reservationDiv.style.height = `${currentHeight + Height}vh`;
-        }
-
-
-        if (reservationBounds.prev !== null) {
-            if (reservationBounds.prev.Hour_end > reservation.Hour_start) {
-
-                reservationDiv.style.width = '49%';
-            }
-        }
-        if (reservationBounds.next !== null) {
-            if (reservationBounds.next.Hour_start < reservation.Hour_end) {
-                reservationDiv.style.width = '45%';
-                reservationDiv.style.left = '50%';
-            }
-        }
+        // Gestion de la position des réservations
+        reservationDiv.style.position = "relative";
+        let topCard = (((startingTime - nine)/15)*this.heightOfHour/4) - this.topCard;
+        reservationDiv.style.top = `${topCard}vh`;
 
         serviceName.textContent = reservation.name_service;
+
         reservationDiv.appendChild(serviceName);
         reservationContainer.appendChild(reservationDiv);
 
-        (Number(HourStart) === 9) ? HourStart = HourEnd : HourStart;
-        return [Number(HourStart), topCard-9];
+        this.topCard += ((endingTime - startingTime)/15)*this.heightOfHour/4;
     }
 
     createLineTime(top = "") {
@@ -188,6 +146,10 @@ class Calendar {
         let containerAppointments = document.getElementById('containerAppointments');
         let containerWrapper = document.createElement('div');
 
+        daysDiv.innerHTML = '';
+        containerAppointments.innerHTML = '';
+        containerWrapper.innerHTML = '';
+
         this.createLineTime("1.4vh");
         this.createLineTime("10.5vh");
         this.createLineTime("19.5vh");
@@ -197,9 +159,9 @@ class Calendar {
         this.createLineTime("55.5vh");
         this.createLineTime("64.5vh");
         this.createLineTime("73.5vh");
+
         !daysDiv ? console.error('Element with id "Days" not found.') : daysDiv
 
-        daysDiv.innerHTML = '';
         this.week.length === 0 ? this.getWeekDates(this.date) : this.week;
 
         this.createDisplayWeek(daysDiv);
@@ -216,18 +178,10 @@ class Calendar {
                     let reservationContainer = document.createElement('div');
                     reservationContainer.className = 'reservation-container';
 
-                    let endMinuteTime = 0;
-                    let endHourTime = 9;
-                    let previousTop = 0;
+                    this.topCard = 0;
                     reservationsForDay.forEach((reservation, index) => {
-                        const reservationBounds = {
-                            prev: index > 0 ? reservationsForDay[index - 1] : null,
-                            next: index < reservationsForDay.length - 1 ? reservationsForDay[index + 1] : null
-                        };
-
-                        [endHourTime, previousTop] = this.CardAppointment(endHourTime, endMinuteTime, reservationContainer, reservation, reservationBounds, previousTop);
+                        this.CardAppointment(reservationContainer, reservation);
                     });
-
                     appointmentDiv.appendChild(reservationContainer);
                 } else {
                     let noReservation = document.createElement('p');
@@ -245,7 +199,7 @@ class Calendar {
     }
 
 
-    openModal = () => {
+    openModal () {
         let modal = document.getElementById('modal');
         const Cards = document.getElementsByClassName('CardAppointment');
         const form = document.getElementById('modalForm');
@@ -264,12 +218,18 @@ class Calendar {
     closeModal() {
         let modal = document.getElementById('modal');
         let iconClose = document.getElementById('closeModal');
-        iconClose.addEventListener("click", (e) => {
-            modal.style.display = 'none';
-        });
+        if (iconClose) {
+            iconClose.addEventListener("click", (e) => {
+                modal.style.display = 'none';
+            });
+        }
+
+
 
     }
 
+    addEvent() {
+    }
 }
 let date = new Date();
 let calendar = new Calendar(date);
@@ -290,6 +250,9 @@ document.getElementById('PreviousWeek').addEventListener('click', ()=> {
     calendar.closeModal();
 
 });
+
+
+
 
 calendar.openModal();
 calendar.closeModal();

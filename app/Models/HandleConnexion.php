@@ -25,7 +25,7 @@ class HandleConnexion
     public function verification_connexion_email_password(): array
     {
 
-        if ($this->request_obj->user_exists($_POST["email"])){
+        if ($this->request_obj->user_exists($this->email)){
 
             $user_info = $this->request_obj->get_infos_user($this->email);
 
